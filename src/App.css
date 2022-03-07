@@ -1,0 +1,23 @@
+
+
+.App{
+  color: #fff;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 10px;
+}
+
+
+@media (max-width: 1199px) {
+  .content{
+    margin-left: 170px;
+  }
+
+}
+
+@media (max-width: 999px) {
+  
+}

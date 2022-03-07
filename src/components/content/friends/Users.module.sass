@@ -1,0 +1,73 @@
+@import './src/vars'
+
+.users
+  display: inline-flex
+  flex-wrap: wrap
+  gap: 5px
+
+.user
+  display: inline-block
+  width: 242px
+  border-radius: 3px
+  cursor: pointer
+  box-sizing: border-box
+
+  &_wrapper
+    background-color: $dark-widget
+
+  &_avatar
+    background-color: #3454D1
+    width: 99%
+    height: 200px
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+    border: 1px solid $dark-widget
+
+  &_info
+    display: grid
+    grid-template-columns: 1fr 1.4fr 0.6fr
+    grid-template-rows: 1fr 1fr
+    color: #fff
+    grid-template-areas: "name name age" "location location location"
+
+    div
+      padding: 5px
+
+    &_name
+      grid-area: name
+      font-size: 20px
+
+    &_age
+      grid-area: age
+      text-align: end
+      font-size: 20px
+
+    &_location
+      grid-area: location
+      font-size: 15px
+
+  &_actions
+    display: flex
+    align-items: center
+    justify-content: center
+    button
+      font-size: 16px
+      padding: 5px
+      width: 50%
+      background-color: $dark-button
+      cursor: pointer
+      border: none
+      color: #417ece
+      text-align: center
+      min-height: 30px
+
+      &:first-child
+        border-right: 1px solid $dark-widget
+
+
+
+
+
+.remove_button
+  font-size: 11px !important
