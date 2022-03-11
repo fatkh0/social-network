@@ -12,6 +12,28 @@ const Profile = (props) => {
   const avatar = user.photos.large ?? userPhoto
 
 
+  const getUserInfo = () => props.filter((data) => data !== null)
+
+  const getContacts = () => props.contacts.filter(contact => contact !== null)
+
+
+  /*
+    fullname: voodi
+    aboutMe:
+    lookingForAJob: false
+    lookingForAJobDescription:
+    contacts
+    facebook:
+    github:
+    instagram:
+    mainLink:
+    twitter:
+    vk:
+    website:
+    youtube:
+  */
+
+
 
 
   return (

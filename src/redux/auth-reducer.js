@@ -35,7 +35,7 @@ const authReducer = (state = initialState, action) => {
     case LOG_IN:
       return {
         ...state,
-        isLogIn: action.resultCode === 0 ? true : false
+        isLogIn: action.isLogin
       }
 
     case TOGGLE_IS_FETCHING:
@@ -55,15 +55,33 @@ export const setAuthUserData = (userId, login, email) => ({ type: SET_AUTH_USER_
   }
 })
 
-export const logIn = (resultCode) => ({type: LOG_IN, resultCode})
+export const setIsLogIn = (isLogin) => ({type: LOG_IN, isLogin})
 
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
 
+/*
 export const authUser = () => {
+  console.warn('use checkAuthUser')
   return (dispatch) => {
     dispatch(toggleIsFetching(true))
     authApi.getAuth().then(data => {
-      dispatch(logIn(data.resultCode))
+      dispatch(setIsLogIn(data.resultCode))
+      const {id, login, email} = data.data
+      dispatch(setAuthUserData(id, login, email))
+      dispatch(setCurrentUserId(id))
+      dispatch(setUserPage(id))
+      dispatch(toggleIsFetching(false))
+    })
+  }
+}
+*/
+
+export const checkAuthUser = () => (dispatch) => {
+    dispatch(toggleIsFetching(true))
+    authApi.getAuth().then(data => {
+      if (data.resultCode !== 0) return
+
+      dispatch(setIsLogIn(true))
       const {id, login, email} = data.data
       dispatch(setAuthUserData(id, login, email))
       dispatch(setCurrentUserId(id))
@@ -71,6 +89,20 @@ export const authUser = () => {
       dispatch(toggleIsFetching(false))
 
     })
+}
+
+
+export const logInToApp = (login, password, rememberMe) => {
+  return (dispatch) => {
+    dispatch(toggleIsFetching(true))
+    authApi.logIn(login, password, rememberMe).then(data => {
+      if (data.resultCode !== 0) return
+      dispatch(checkAuthUser())
+    })
+
+    dispatch(toggleIsFetching(false))
   }
 }
+
+
 

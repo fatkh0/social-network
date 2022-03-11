@@ -1,17 +1,25 @@
 import React from "react";
-import ChatInput from "./ChatInput";
 import {connect} from "react-redux";
-import {updateCurrentText, sendMessage} from "../../../../../redux/messages-reducer";
+import {sendMessage} from "../../../../../redux/messages-reducer";
+import PostInputForm from '../../../profile/MyPosts/PostInput/PostInputForm'
 
+
+const ChatInputContainer = (props) => {
+
+  const onSubmit = (formData) => {
+    const message = formData.newPostText
+    if (message.length) {
+      props.sendMessage(message)
+    }
+
+  }
+
+  return <PostInputForm onSubmit={onSubmit} />
+}
 
 const mapSateToProps = (state) => ({
   currentText: state.messagesPage.newMessageText
 })
 
+export default connect (mapSateToProps, {sendMessage}) (ChatInputContainer)
 
-const ChatInputContainer = connect (mapSateToProps, {
-  updateCurrentText,
-  sendMessage
-}) (ChatInput)
-
-export default ChatInputContainer

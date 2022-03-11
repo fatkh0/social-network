@@ -1,6 +1,14 @@
 import React from "react";
+import { Field } from "redux-form";
 import s from "./ChatInput.module.sass"
 
+const ChatInputForm = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit} className={s.input}>
+      <Field component='textarea' />
+    </form>
+  )
+}
 
 const ChatInput = (props) => {
 

@@ -21,8 +21,6 @@ const initialState = {
     {id: 16, direction: 0, message: 'Message16'},
   ],
 
-  newMessageText: '',
-
   dialogs: [
     {id: 1, name: "Erik Fatkhutdinov"},
     {id: 2, name: "AAAAAAAAAAAAAAAAAAAA"},
@@ -57,21 +55,16 @@ const messagesReducer = (state = initialState, action) => {
       }
 
     case SEND_MESSAGE:
-      const message = state.newMessageText
-      if (message) {
         const newMessage = {
           id: state.messages.length + 1,
           direction: 0,
-          message
+          message: action.newMessageText
         }
 
         return {
           ...state,
-          messages: [...state.messages, newMessage],
-          newMessageText: ''
+          messages: [...state.messages, newMessage]
         }
-      }
-      return state
 
     default:
       return state
@@ -79,11 +72,7 @@ const messagesReducer = (state = initialState, action) => {
 }
 export default messagesReducer
 
-export const sendMessage = () => ({
-  type: SEND_MESSAGE
-})
-
-export const updateCurrentText = (text) => ({
-  type: UPDATE_NEW_MESSAGE,
-  text
+export const sendMessage = (newMessageText) => ({
+  type: SEND_MESSAGE,
+  newMessageText
 })

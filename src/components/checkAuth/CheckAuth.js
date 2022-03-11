@@ -12,6 +12,7 @@ class CheckAuth extends React.Component {
 
   render () {
 
+
     if (this.props.isAuth) {
       return (
         <>
@@ -21,9 +22,11 @@ class CheckAuth extends React.Component {
       )
     }
 
-    if (this.props.location.pathname.includes('/profile')) return <Route path={'/profile/:id?'} render={() => <ProfileContainer/>}
-    />
-
+    /*
+    if (this.props.location.pathname.includes('/profile')){
+      return <Route path={'/profile/:id?'} render={() => <ProfileContainer/>}/>
+    } 
+*/
     return <LoginPageContainer />
 
   }

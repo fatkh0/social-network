@@ -1,10 +1,11 @@
-import {usersApi} from "../api/api";
+import {usersApi, profileApi} from "../api/api";
 
 const UPDATE_CURRENT_POST = 'UPDATE-CURRENT-POST'
 const ADD_POST = 'ADD-POST'
 const SET_USER_INFO = 'SET_USER_INFO'
 const SET_CURRENT_USER_ID = 'SET_CURRENT_USER_ID'
 const UPDATE_PROFILE_PAGE = 'UPDATE_PROFILE_PAGE'
+const SET_STATUS = 'SET_STATUS'
 
 const initialState = {
   postData: [
@@ -18,41 +19,27 @@ const initialState = {
     {id: 8, likeCount: 4, postText: 'post8'},
     {id: 9, likeCount: 2, postText: 'post9'},
   ],
-  newPostText: '',
   avatar: null,
   userInfo: null,
   currentUserId: null,
-  photos: null
+  photos: null,
+  status: ''
 }
 
 const profileReducer = (state = initialState, action) => {
 
 
   switch(action.type) {
-
-    case UPDATE_CURRENT_POST:
-      return {
-        ...state,
-        newPostText: action.text
-      }
-
     case ADD_POST:
-      const newPostText = state.newPostText
-      if(newPostText) {
         const newPost = {
           id: state.postData.length + 1,
           likeCount: 0,
-          postText: newPostText
+          postText: action.newPostText
         }
-
         return {
           ...state,
-          postData: [...state.postData, newPost],
-          newPostText: ''
+          postData: [...state.postData, newPost]
         }
-      }
-      return state
-
 
     case SET_USER_INFO:
       return {
@@ -69,29 +56,53 @@ const profileReducer = (state = initialState, action) => {
     case UPDATE_PROFILE_PAGE:
       return {...state}
 
+    case SET_STATUS: 
+      return {...state, status: action.status}
+
     default:
       return state
   }
 }
 export default profileReducer
 
-export const addPostActionCreator = () => ({
-  type: ADD_POST
+export const addPost = (newPostText) => ({
+  type: ADD_POST,
+  newPostText
 })
 
-export const updateCurrentPostActionCreator = (text) => ({
-  type: UPDATE_CURRENT_POST,
-  text
-})
 export const setUserInfo = (userInfo) => ({type: SET_USER_INFO, userInfo})
 export const setCurrentUserId = (currentUserId) => ({type: SET_CURRENT_USER_ID, currentUserId})
 export const updateProfilePage = () => ({type: UPDATE_PROFILE_PAGE})
+export const setStatus = (status) => ({type: SET_STATUS, status})
+
+
+export const getStatus = (userId) => (dispatch) => {
+    profileApi.getStatus(userId)
+      .then(response => {
+          dispatch(setStatus(response))
+      })
+}
+
+export const updateStatus = (status) => (dispatch) => {
+  try {
+    profileApi.updateStatus(status)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(setStatus(status))
+        }
+      })
+  } catch (error) {
+    debugger
+  }
+    
+}
 
 export const setUserPage = (userId) => {
+  
   return (dispatch) => {
     if (!userId) return
 
-    usersApi.getUser(userId).then(data => {
+    profileApi.getProfile(userId).then(data => {
       dispatch(setUserInfo(data))
     } )
   }

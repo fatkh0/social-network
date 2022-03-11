@@ -23,12 +23,34 @@ export const usersApi = {
   },
 
   getUser (userId) {
+    console.warn('Use profileApi.getProfile')
     return instance.get(`profile/${userId}`).then(response => response.data)
+  }
+}
+
+export const profileApi = {
+  getProfile (userId) {
+    return instance.get(`profile/${userId}`).then(response => response.data)
+  },
+
+  getStatus (userId) {
+    return instance.get(`/profile/status/${userId}`).then(response => response.data)
+  },
+
+  updateStatus (status) {
+    return instance.put(`/profile/status/`, {status})
   }
 }
 
 export const authApi = {
   getAuth () {
     return  instance.get('auth/me').then(response => response.data)
+  }, 
+  logIn (email, password, rememberMe) {
+    return instance.post('auth/login', {email, password, rememberMe}).then(response => response.data)
   }
 }
+
+/*
+auth/logout	5
+*/

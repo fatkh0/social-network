@@ -1,26 +1,21 @@
 import React from "react";
-import PostInput from "./PostInput";
+import PostInputForm from "./PostInputForm";
 import {connect} from "react-redux";
-import {updateCurrentPostActionCreator, addPostActionCreator} from "../../../../../redux/profile-reducer";
+import {addPost} from "../../../../../redux/profile-reducer";
 
 
-const mapSateToProps1 = (state) => ({
-  newPostText: state.profilePage.newPostText,
-})
 
-const mapSateToProps = (state) => {
-  return {
-    newPostText: state.profilePage.newPostText,
+const PostInputContainer = (props) => {
+
+  const onSubmit = (formData) => {
+    props.addPost(formData.newPostText)
   }
+
+
+  return <PostInputForm onSubmit={onSubmit} />
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateCurrentText: (text) => { dispatch (updateCurrentPostActionCreator (text))},
-    addText: () => { dispatch (addPostActionCreator())}
-  }
-}
+const mapSateToProps = () => ({})
 
-const PostInputContainer = connect (mapSateToProps, mapDispatchToProps) (PostInput)
 
-export default PostInputContainer
+export default connect(mapSateToProps, {addPost}) (PostInputContainer)

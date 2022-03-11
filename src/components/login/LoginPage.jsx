@@ -1,5 +1,7 @@
 import React from 'react'
+import LoginForm from './LoginForm'
 import s from './LoginPage.module.sass'
+
 
 const LoginPage = (props) => {
 
@@ -7,7 +9,7 @@ const LoginPage = (props) => {
   return (
     <div className={s.login_wrapper}>
       <div className={s.login_box}>
-        Login
+        <LoginForm onSubmit={props.onSubmit} />
       </div>
 
     </div>
