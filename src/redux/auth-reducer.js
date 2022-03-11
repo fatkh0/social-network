@@ -59,22 +59,6 @@ export const setIsLogIn = (isLogin) => ({type: LOG_IN, isLogin})
 
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
 
-/*
-export const authUser = () => {
-  console.warn('use checkAuthUser')
-  return (dispatch) => {
-    dispatch(toggleIsFetching(true))
-    authApi.getAuth().then(data => {
-      dispatch(setIsLogIn(data.resultCode))
-      const {id, login, email} = data.data
-      dispatch(setAuthUserData(id, login, email))
-      dispatch(setCurrentUserId(id))
-      dispatch(setUserPage(id))
-      dispatch(toggleIsFetching(false))
-    })
-  }
-}
-*/
 
 export const checkAuthUser = () => (dispatch) => {
     dispatch(toggleIsFetching(true))
@@ -102,6 +86,17 @@ export const logInToApp = (login, password, rememberMe) => {
 
     dispatch(toggleIsFetching(false))
   }
+}
+
+export const logOut = () => dispatch => {
+  
+    authApi.logOut().then(data => {
+      if (data.resultCode === 0) {
+        dispatch(setAuthUserData('', '', ''))
+      }
+      
+    })
+
 }
 
 

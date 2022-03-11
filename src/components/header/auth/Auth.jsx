@@ -11,7 +11,7 @@ const Auth = (props) => {
         <>
           <Avatar url={props.userPhoto ?? userPhoto} width={'40px'} height={'40px'} />
           <span className={s.auth_name}> {props.login} </span>
-          <button > Log Out </button>
+          <button onClick={props.logOut}> Log Out </button>
         </>
     )} else {
         return (
