@@ -1,5 +1,6 @@
 import {authApi} from "../api/api";
 import {setUserPage, setCurrentUserId} from "./profile-reducer";
+import { stopSubmit } from "redux-form";
 
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA'
 const SET_PHOTOS = 'SET_PHOTOS'
@@ -62,7 +63,7 @@ export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFe
 
 export const checkAuthUser = () => (dispatch) => {
     dispatch(toggleIsFetching(true))
-    authApi.getAuth().then(data => {
+    return authApi.getAuth().then(data => {
       if (data.resultCode !== 0) return
 
       dispatch(setIsLogIn(true))
@@ -71,17 +72,21 @@ export const checkAuthUser = () => (dispatch) => {
       dispatch(setCurrentUserId(id))
       dispatch(setUserPage(id))
       dispatch(toggleIsFetching(false))
-
     })
 }
 
 
-export const logInToApp = (login, password, rememberMe) => {
+export const logInToApp = (email, password, rememberMe) => {
   return (dispatch) => {
     dispatch(toggleIsFetching(true))
-    authApi.logIn(login, password, rememberMe).then(data => {
-      if (data.resultCode !== 0) return
-      dispatch(checkAuthUser())
+    authApi.logIn(email, password, rememberMe).then(data => {
+      if (data.resultCode === 0)  {
+        dispatch(checkAuthUser())
+      } else {
+        const message = data.messages.length ? data.messages[0] : 'Some error'
+        dispatch(stopSubmit('login', {_error: message}))
+      }
+      
     })
 
     dispatch(toggleIsFetching(false))
@@ -93,7 +98,8 @@ export const logOut = () => dispatch => {
     authApi.logOut().then(data => {
       if (data.resultCode === 0) {
         dispatch(setAuthUserData('', '', ''))
-      }
+        dispatch(setIsLogIn(false))
+      } 
       
     })
 

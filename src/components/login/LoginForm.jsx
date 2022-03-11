@@ -15,6 +15,8 @@ const useStyles = makeStyles({
     color: '#222',
     cursor: 'pointer',
     marginRight: '20px',
+    textDecoration: 'none',
+    fontWeight: 'bold',
     '&:hover': {
       background: '#222',
       color: '#fff',
@@ -33,6 +35,11 @@ const useStyles = makeStyles({
   },
   btnWrapper: {
     display: 'flex'
+  },
+  errorMessage: {
+    paddingTop: '20px',
+    fontSize: '20px',
+    color: 'red'
   }
 })
 
@@ -63,6 +70,8 @@ const LoginForm = (props) => {
         </div>
         
       </div>
+
+      {props.error && <div className={styles.errorMessage}>{props.error}</div>}
       
       
     </form>
