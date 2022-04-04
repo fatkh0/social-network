@@ -1,16 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import Preloader from "../../common/preloader/Preloader";
 import {setCurrentUserId, setUserPage} from "../../../redux/profile-reducer";
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
+import { getProfileIsFetching, getProfileUserInfo, getCurrentUserId } from '../../../utils/selectors/selectors'
 
 
+const ProfileContainer = (props) => {
 
-class ProfileContainer extends React.Component {
-
-  componentDidMount() {
+  useEffect(() => {
     let userId = this.props.currentUserId
     if (!userId) {
       userId = this.props.match.params.id
@@ -18,25 +18,9 @@ class ProfileContainer extends React.Component {
       this.props.setCurrentUserId(userId)
     }
     this.props.setUserPage(userId)
-  }
+  }, [])
 
-    /*
-    fullname: voodi
-    aboutMe:
-    lookingForAJob: false
-    lookingForAJobDescription:
-    contacts
-    facebook:
-    github:
-    instagram:
-    mainLink:
-    twitter:
-    vk:
-    website:
-    youtube:
-  */
-
-  getDescription (searchingData) {
+  const getDescription =  (searchingData) => {
     const descriptions = {
       fullName: 'Full Name',
       aboutMe: 'About Me',
@@ -54,27 +38,36 @@ class ProfileContainer extends React.Component {
     return descriptions[searchingData]
   }
 
-
-
-
-  render () {
-    if (!this.props.userInfo) {
-      return <Preloader />
-    }
-
-    return <Profile status={this.props.status} getDescription={this.getDescription} userInfo={this.props.userInfo} />
-  }
-
+  return (!props.userInfo) 
+  ? <Preloader /> 
+  : <Profile status={props.status} getDescription={getDescription} userInfo={props.userInfo} />
 }
 
-const mapStateToProps = (state) => {
-  const profilePage = state.profilePage
-  return {
-    isFetching: profilePage.isFetching,
-    userInfo: profilePage.userInfo,
-    currentUserId: profilePage.currentUserId
-  }
-}
+    /*
+    fullname: voodi
+    aboutMe:
+    lookingForAJob: false
+    lookingForAJobDescription:
+    contacts
+    facebook:
+    github:
+    instagram:
+    mainLink:
+    twitter:
+    vk:
+    website:
+    youtube:
+  */
+
+
+
+
+const mapStateToProps = (state) => ({
+  isFetching: getProfileIsFetching(state),
+  userInfo: getProfileUserInfo(state),
+  currentUserId: getCurrentUserId(state)
+})
+
 
 
 export default compose (

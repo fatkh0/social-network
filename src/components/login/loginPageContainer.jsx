@@ -5,21 +5,19 @@ import { logInToApp } from '../../redux/auth-reducer'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-class LoginPageContainer extends React.Component {
 
-  onSubmit = (formData) => {
+const LoginPageContainer = (props) => {
+
+  const onSubmit = (formData) => {
     const { login, password, rememberMe } = formData
 
-    this.props.logInToApp(login, password, rememberMe)
-    this.props.history.push('profile')
-
+    props.logInToApp(login, password, rememberMe)
+    props.history.push('profile')
   }
 
-
-  render () {
-    return <LoginPage onSubmit={this.onSubmit} {...this.props} />
-  }
+    return <LoginPage onSubmit={onSubmit} {...props} />
 }
+
 
 const mapStateToProps = (state) => ({
 

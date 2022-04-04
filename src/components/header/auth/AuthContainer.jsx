@@ -1,27 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Auth from "./Auth";
 import {connect} from "react-redux";
 import {checkAuthUser, logOut} from "../../../redux/auth-reducer";
-
-class AuthContainer extends React.Component {
-
-  componentDidMount() {
-    this.props.checkAuthUser()
-  }
+import {getIsLogIn, getUserPhoto, getIsAuthFetching, getAuthLogin} from '../../../utils/selectors/selectors'
 
 
-  render() {
-    return (
-      <Auth {...this.props}  />
-    );
-  }
+
+const AuthContainer = (props) => {
+
+  useEffect(() => {
+    props.checkAuthUser()
+  }, [])
+
+  return <Auth {...props}  />
 }
 
+
+
 const mapStateToProps = (state) => ({
-  isLogIn: state.auth.isLogIn,
-  userPhoto: state.profilePage.avatar,
-  isFetching: state.auth.isFetching,
-  login: state.auth.login
+  isLogIn: getIsLogIn(state),
+  userPhoto: getUserPhoto(state),
+  isFetching: getIsAuthFetching(state),
+  login: getAuthLogin(state)
 })
 
 

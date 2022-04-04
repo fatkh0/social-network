@@ -1,0 +1,9 @@
+{
+    "editor.fontSize": 14,
+    "editor.tabSize": 2,
+    "editor.wordWrap": "on",
+    "editor.autoClosingBrackets": "beforeWhitespace",
+    "editor.formatOnPaste": true,
+    "editor.minimap.maxColumn": 80,
+    "files.autoSave": "onFocusChange"
+}

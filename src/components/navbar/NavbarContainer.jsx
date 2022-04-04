@@ -4,30 +4,29 @@ import {connect} from "react-redux";
 import {setCurrentUserId, setUserInfo} from "../../redux/profile-reducer";
 import {usersApi} from "../../api/api";
 import {selectNavbarItem} from "../../redux/navbar-reducer";
+import {getUserId, getCurrentUserId, getNavbarItems} from '../../utils/selectors/selectors'
 
 
 
-class NavbarContainer extends React.Component {
+const NavbarContainer = (props) => {
 
-  updateProfilePage = (userId) => {
+  const updateProfilePage = (userId) => {
     usersApi.getUser(userId).then(data => {
         this.props.setUserInfo(data)
       } )
   }
 
-
-  render () {
-    return (
-      <Navbar {...this.props} updateProfilePage={this.updateProfilePage} />
-    )
-  }
+  return (
+    <Navbar {...props} updateProfilePage={updateProfilePage} />
+  )
 }
 
 
+
 const mapStateToProps = (state) => ({
-  myUserId: state.auth.userId,
-  currentUserId: state.profilePage.currentUserId,
-  navbarItems: state.navbar.navbarItems
+  myUserId: getUserId(state),
+  currentUserId: getCurrentUserId(state),
+  navbarItems: getNavbarItems(state)
 })
 
 

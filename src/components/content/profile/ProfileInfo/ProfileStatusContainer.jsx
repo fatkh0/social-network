@@ -1,9 +1,39 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import ProfileStatus from './ProfileStatus'
 import {connect} from "react-redux";
 import { updateStatus, getStatus } from "../../../../redux/profile-reducer";
+import { getProfileStatus, getUserId } from '../../../../utils/selectors/selectors'
 
-class ProfileStatusContainer extends React.Component {
+
+const ProfileStatusContainer = (props) => {
+  const [editMode, setEditMode] = useState(false)
+  const [status, setStatus] = useState(props.status)
+
+  useEffect (() => {
+    this.props.getStatus(this.props.userId)
+  }, [])
+
+  useEffect ((prevProps, prevState) => {
+
+    debugger
+    if (prevProps.status !== this.props.status) {
+      this.setStatus(this.props.status)
+    }
+  })
+
+
+  return <ProfileStatus
+      isEditMode={state.isEditMode}
+      profileStatus={props.status}
+      enableEditMode={enableEditMode}
+      disableEditMode={disableEditMode}
+      updateStatus={props.updateStatus}
+      setStatus={setStatus}
+      localStatus={state.status}
+    />
+}
+
+class ProfileStatusContainer1 extends React.Component {
 
   state = {
     isEditMode: false,
@@ -39,22 +69,14 @@ class ProfileStatusContainer extends React.Component {
   }
 
 
-  render () {
-    return <ProfileStatus
-      isEditMode={this.state.isEditMode}
-      profileStatus={this.props.status}
-      enableEditMode={this.enableEditMode}
-      disableEditMode={this.disableEditMode}
-      updateStatus={this.props.updateStatus}
-      setStatus={this.setStatus}
-      localStatus={this.state.status}
-    />
-  }
+
 }
 
+
+
 const mapStateToProps = (state) => ({
-  status: state.profilePage.status,
-  userId: state.profilePage.userInfo.userId
+  status: getProfileStatus(state),
+  userId: getUserId(state)
 })
 
 export default connect (mapStateToProps, {updateStatus, getStatus}) (ProfileStatusContainer)
