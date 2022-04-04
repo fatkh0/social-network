@@ -18,7 +18,7 @@ const ChatInputContainer = (props) => {
 }
 
 const mapSateToProps = (state) => ({
-  currentText: state.messagesPage.newMessageText
+  
 })
 
 export default connect (mapSateToProps, {sendMessage}) (ChatInputContainer)

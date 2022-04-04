@@ -6,10 +6,7 @@ const ProfileStatus = (props) => {
     props.setStatus(e.currentTarget.value)
   }
 
-  const updateStatus = () => {
-    props.disableEditMode()
-    props.updateStatus(props.localStatus)
-  }
+  
 
   return (
     <div>
@@ -21,7 +18,7 @@ const ProfileStatus = (props) => {
         props.isEditMode &&
         <input 
         onChange={setStatus} 
-        onBlur={updateStatus} 
+        onBlur={props.updateStatus} 
         autoFocus={true} 
         value={props.localStatus} 
         />

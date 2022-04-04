@@ -1,16 +1,20 @@
 import React from "react";
 import Chat from "./Chat";
 import {connect} from "react-redux";
+import { getMessagesPageMessages } from "../../../../utils/selectors/selectors";
 
-const mapStateToProps = (state) => {
-  const messagesPage = state.messagesPage
-  return {
-    messages: messagesPage.messages,
-    currentText: messagesPage.newMessage
-  }
+
+const ChatContainer = (props) => {
+
+  return <Chat {...props} />
 }
 
 
-const ChatContainer = connect (mapStateToProps, {}) (Chat)
+const mapStateToProps = (state) => ({
+  messages: getMessagesPageMessages(state)
+})
 
-export default ChatContainer
+
+export default connect (mapStateToProps, {}) (ChatContainer)
+
+

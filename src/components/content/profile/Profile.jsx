@@ -6,15 +6,15 @@ import userPhoto from '../../../assets/images/user-photo.png'
 import ProfileStatusContainer from './ProfileInfo/ProfileStatusContainer'
 
 const Profile = (props) => {
-
+  
   const user = props.userInfo
 
   const avatar = user.photos.large ?? userPhoto
 
 
-  const getUserInfo = () => props.filter((data) => data !== null)
+  const getUserInfo = () => props.filter( (data) => data !== null )
 
-  const getContacts = () => props.contacts.filter(contact => contact !== null)
+  const getContacts = () => props.contacts.filter( contact => contact !== null )
 
 
   /*

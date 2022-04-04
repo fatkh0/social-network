@@ -6,30 +6,49 @@ import { getProfileStatus, getUserId } from '../../../../utils/selectors/selecto
 
 
 const ProfileStatusContainer = (props) => {
-  const [editMode, setEditMode] = useState(false)
-  const [status, setStatus] = useState(props.status)
 
-  useEffect (() => {
-    this.props.getStatus(this.props.userId)
+  
+  const [editMode, setEditMode] = useState(false)
+  const [status, setStatus] = useState('')
+
+ 
+  useEffect(() => {
+    console.log('render')
+    props.getStatus(props.userId)
+    if (status !== props.status) {
+      setStatus(props.status)
+    }
   }, [])
 
-  useEffect ((prevProps, prevState) => {
 
-    debugger
-    if (prevProps.status !== this.props.status) {
-      this.setStatus(this.props.status)
-    }
-  })
 
+
+  const setLocalStatus = (newStatus) => {
+    setStatus (newStatus)
+    
+  }
+
+  const updateStatus = () => {
+    disableEditMode()
+    props.updateStatus(props.localStatus)
+  }
+
+  const enableEditMode = () => {
+    setEditMode(true)
+  }
+
+  const disableEditMode = () => {
+    setEditMode(false)
+  }
 
   return <ProfileStatus
-      isEditMode={state.isEditMode}
+      isEditMode={editMode}
       profileStatus={props.status}
       enableEditMode={enableEditMode}
       disableEditMode={disableEditMode}
-      updateStatus={props.updateStatus}
-      setStatus={setStatus}
-      localStatus={state.status}
+      updateStatus={updateStatus}
+      setStatus={setLocalStatus}
+      localStatus={status}
     />
 }
 
@@ -41,6 +60,7 @@ class ProfileStatusContainer1 extends React.Component {
   }
 
   componentDidMount = () => {
+    debugger
     this.props.getStatus(this.props.userId)
   }
 
@@ -68,7 +88,17 @@ class ProfileStatusContainer1 extends React.Component {
     })
   }
 
-
+  render () {
+    return <ProfileStatus
+      isEditMode={this.isEditMode}
+      profileStatus={this.status}
+      enableEditMode={this.enableEditMode}
+      disableEditMode={this.disableEditMode}
+      updateStatus={this.props.updateStatus}
+      setStatus={this.setStatus}
+      localStatus={this.status}
+    />
+  }
 
 }
 

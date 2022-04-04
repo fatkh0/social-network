@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
 import {
@@ -15,8 +15,59 @@ import {setCurrentUserId} from "../../../redux/profile-reducer";
 import withRedirect from "../../../hoc/withRedirect";
 import {compose} from "redux";
 
+import {
+  getUsersPageUsers,
+  getUsersPageTotalUsersCount,
+  getUsersPagePageSize,
+  getUsersPageCurrentPage,
+  getUsersPageStartPageNumber,
+  getUsersPageEndPageNumber,
+  getUsersPageIsFetching,
+  getUsersPageusersInFetching
+} from '../../../utils/selectors/selectors'
 
-class UsersContainer extends React.Component {
+
+
+const UsersContainer = (props) => {
+
+
+  useEffect(() => {
+    if(props.users.length === 0) {
+      props.updateUsers(props.currentPage, props.pageSize)
+    }
+  }, [])
+
+
+  return (
+        <div className={s.users}>
+          <UsersPageNavigation
+            pageSize={props.pageSize}
+            currentPage={props.currentPage}
+            startPageNumber={props.startPageNumber}
+            endPageNumber={props.endPageNumber}
+            setCurrentPage={props.setCurrentPage}
+            movePagesToLeft={props.movePagesToLeft}
+            movePagesToRight={props.movePagesToRight}
+            totalUsersCount={props.totalUsersCount}
+            updateUsers={props.updateUsers}
+          />
+
+
+
+          { props.isFetching === true
+            ? <Preloader />
+            : <Users users={props.users}
+                   addToFriends={props.addToFriends}
+                   removeFromFriends={props.removeFromFriends}
+                   setCurrentUserId={props.setCurrentUserId}
+                   usersInFetching={props.usersInFetching}
+              />
+          }
+        </div>
+    )
+}
+
+class UsersContainer1 extends React.Component {
 
   componentDidMount() {
     if(this.props.users.length === 0) {
@@ -56,31 +107,18 @@ class UsersContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const usersPage = state.usersPage
-  return {
-    users: usersPage.users,
-    totalUsersCount: usersPage.totalUsersCount,
-    pageSize: usersPage.pageSize,
-    currentPage: usersPage.currentPage,
-    startPageNumber: usersPage.startPageNumber,
-    endPageNumber: usersPage.endPageNumber,
-    isFetching: usersPage.isFetching,
-    usersInFetching: usersPage.usersInFetching
-  }
-}
-
-const mapDispatchToProps = () => ({
-  addToFriends,
-  removeFromFriends,
-  setCurrentPage,
-  setTotalUsersCount,
-  movePagesToLeft,
-  movePagesToRight,
-  setCurrentUserId,
-  toggleUsersInFetching,
-  updateUsers
+const mapStateToProps = (state) => ({
+    users: getUsersPageUsers(state),
+    totalUsersCount: getUsersPageTotalUsersCount(state),
+    pageSize: getUsersPagePageSize(state),
+    currentPage: getUsersPageCurrentPage(state),
+    startPageNumber: getUsersPageStartPageNumber(state),
+    endPageNumber: getUsersPageEndPageNumber(state),
+    isFetching: getUsersPageIsFetching(state),
+    usersInFetching: getUsersPageusersInFetching(state)
 })
+
+
 
 
 

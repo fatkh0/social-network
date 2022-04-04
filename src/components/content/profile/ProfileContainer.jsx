@@ -11,13 +11,12 @@ import { getProfileIsFetching, getProfileUserInfo, getCurrentUserId } from '../.
 const ProfileContainer = (props) => {
 
   useEffect(() => {
-    let userId = this.props.currentUserId
+    let userId = props.currentUserId
     if (!userId) {
-      userId = this.props.match.params.id
-
-      this.props.setCurrentUserId(userId)
+      userId = props.match.params.id
+      props.setCurrentUserId(userId)
     }
-    this.props.setUserPage(userId)
+    props.setUserPage(userId)
   }, [])
 
   const getDescription =  (searchingData) => {
@@ -35,8 +34,10 @@ const ProfileContainer = (props) => {
       website: 'website',
       youtube: 'youtube'
     }
+    debugger
     return descriptions[searchingData]
   }
+
 
   return (!props.userInfo) 
   ? <Preloader /> 

@@ -2,18 +2,17 @@ import React from "react";
 import Content from "./Content";
 import {connect} from "react-redux";
 import {setProfilePage} from "../../redux/navbar-reducer";
+import {getPageRoutes, getSelectedPage} from '../../utils/selectors/selectors'
 
 
-class ContentContainer extends React.Component {
-
-  render() {
-    return <Content {...this.props}/>
-  }
+const ContentContainer = (props) => {
+  return <Content {...props}/>
 }
 
+
 const mapStateToProps = (state) => ({
-  pageRoutes: state.pageRoutes,
-  selectedPage: state.navbar.selectedPage
+  pageRoutes: getPageRoutes(state),
+  selectedPage: getSelectedPage(state)
 })
 
 export default connect (mapStateToProps, {

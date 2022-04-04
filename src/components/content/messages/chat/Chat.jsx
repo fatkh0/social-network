@@ -7,7 +7,8 @@ import ChatInputContainer from "./ChatInput/ChatInputContainer";
 
 const Chat = (props) => {
 
-  const messagesComponent = props.messages.map(t => <Message key={t.id} direction={t.direction} message={t.message} />)
+  const messagesComponent = props.messages.map(
+    t => <Message key={t.id} direction={t.direction} message={t.message} />)
 
   return (
     <div className={s.chat}>
