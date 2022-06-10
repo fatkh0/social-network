@@ -1,20 +1,11 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import App from "./App";
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter} from "react-router-dom";
-import store from "./redux/redux-store";
-import {Provider} from "react-redux";
+import AppContainer from './App.tsx'
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter >
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <AppContainer />,
   document.getElementById('root')
 );
 
